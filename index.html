@@ -334,6 +334,8 @@
 </head>
 <body>
 
+<audio id="bgMusic" src="https://open.spotify.com/track/5xyaPwLmgoyGlDDu2H0Uix?si=J_hcW56fTxu3arguTa3IWg" loop preload="auto"></audio>
+
 <div class="app-container">
     <div id="screenCountdown" class="card screen">
         <div class="elegant-title">Diko's Bithday</div>
@@ -388,6 +390,11 @@
     (function() {
         // ======================== 1. CONTAGEM REGRESSIVA ========================
         const targetDate = new Date(2026, 3, 29, 0, 0, 0); // 29 de Abril de 2026 (Mês é de 0 a 11, onde 3 é Abril)
+        
+        // Novas variáveis para controle do fim da contagem
+        let countdownEnded = false;
+        let countdownInterval;
+        let celebrationInterval;
 
         function updateCountdown() {
             const now = new Date().getTime();
@@ -398,6 +405,22 @@
                 document.getElementById('hours').innerText = '00';
                 document.getElementById('minutes').innerText = '00';
                 document.getElementById('seconds').innerText = '00';
+                
+                // Lógica executada apenas uma vez quando a contagem zera
+                if (!countdownEnded) {
+                    countdownEnded = true;
+                    clearInterval(countdownInterval);
+                    
+                    // Tenta tocar a música de fundo
+                    const bgMusic = document.getElementById('bgMusic');
+                    bgMusic.play().catch(e => console.log('Autoplay bloqueado pelo navegador. O usuário precisa interagir com a página.'));
+
+                    // Dispara o primeiro show de confetes/fogos
+                    launchFireworksShow();
+                    
+                    // Configura para continuar soltando de tempo em tempo (loop infinito de confetes)
+                    celebrationInterval = setInterval(launchFireworksShow, 4500);
+                }
                 return;
             }
 
@@ -411,8 +434,10 @@
             document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
             document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
         }
+        
+        // Inicia a contagem
         updateCountdown();
-        setInterval(updateCountdown, 1000);
+        countdownInterval = setInterval(updateCountdown, 1000);
 
         // ======================== 2. CORAÇÕES FLUTUANTES ========================
         function createElegantHearts() {
@@ -442,7 +467,7 @@
             }
         }, 5000);
 
-        // ======================== 3. SISTEMA DE FOGOS DE ARTIFÍCIO ========================
+        // ======================== 3. SISTEMA DE FOGOS DE ARTIFÍCIO / CONFETES ========================
         const canvas = document.getElementById('fireworks-canvas');
         let ctx = canvas.getContext('2d');
         let activeParticles = [];
@@ -628,6 +653,12 @@
         function elegantTransition(currentScreen, nextScreen, triggerFireworks = true) {
             if (!currentScreen || !nextScreen) return;
             currentScreen.classList.add('fade-out');
+            
+            // Garantir que a música toque se o usuário clicou em algum botão
+            const bgMusic = document.getElementById('bgMusic');
+            if (bgMusic.paused) {
+                bgMusic.play().catch(e => console.log('Autoplay da música falhou ao clicar.'));
+            }
             
             if (triggerFireworks) {
                 launchFireworksShow();
