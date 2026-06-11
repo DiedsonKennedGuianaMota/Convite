@@ -1,729 +1,220 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Convite de Aniversário</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlgoritmoLab - Letramento Digital</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Estilos Gerais */
         body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0D0221 0%, #0F084B 25%, #26408B 60%, #A6CFD5 100%);
-            background-size: 200% 200%;
-            animation: gradientMove 14s ease infinite;
-            font-family: 'Segoe UI', 'Poppins', 'Inter', system-ui, -apple-system, sans-serif;
-            overflow-x: hidden;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Corações flutuantes elegantes */
-        .floating-heart {
-            position: fixed;
-            pointer-events: none;
-            z-index: 5;
-            font-size: 1.2rem;
-            opacity: 0.4;
-            animation: floatHeart 14s linear infinite;
-            color: #E9F5F0;
-            text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
-            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
-        }
-
-        @keyframes floatHeart {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            20% {
-                opacity: 0.5;
-            }
-            80% {
-                opacity: 0.6;
-            }
-            100% {
-                transform: translateY(-20vh) rotate(15deg);
-                opacity: 0;
-            }
-        }
-
-        /* Container principal */
-        .app-container {
-            width: 100%;
-            max-width: 620px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 20;
-        }
-
-        /* Card com vidro fosco - Contraste Aumentado */
-        .card {
-            background: rgba(8, 2, 20, 0.85);
-            backdrop-filter: blur(20px);
-            border-radius: 2.5rem;
-            padding: 2.2rem 2rem;
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(194, 231, 217, 0.15);
-            transition: all 0.4s ease;
-            border: 1px solid rgba(194, 231, 217, 0.4);
-        }
-
-        /* Telas com transição suave */
-        .screen {
-            transition: opacity 0.55s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.55s ease;
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .screen.hide {
-            display: none;
-        }
-
-        .screen.fade-out {
-            opacity: 0;
-            transform: scale(0.94);
-            pointer-events: none;
-        }
-
-        /* Títulos elegantes - Mais claros */
-        .elegant-title {
-            font-size: 2rem;
-            font-weight: 700;
-            text-align: center;
-            background: linear-gradient(135deg, #FFFFFF, #A6CFD5);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.3px;
-            margin-bottom: 0.5rem;
-            text-shadow: 0px 2px 10px rgba(0,0,0,0.5);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #E9F5F0;
-            font-weight: 500;
-            font-size: 1rem;
-            letter-spacing: 1px;
-            margin-bottom: 1.8rem;
-        }
-
-        /* Contagem regressiva */
-        .timer-box {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin: 2rem 0 2rem;
-        }
-
-        .time-unit {
-            background: rgba(5, 2, 30, 0.9);
-            backdrop-filter: blur(4px);
-            border-radius: 1.5rem;
-            padding: 0.9rem 0.8rem;
-            min-width: 80px;
-            text-align: center;
-            border-bottom: 2px solid #FFFFFF;
-            transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        }
-
-        .time-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #FFFFFF;
-            letter-spacing: 2px;
-            font-feature-settings: "tnum";
-            text-shadow: 0 2px 8px rgba(194, 231, 217, 0.4);
-        }
-
-        .time-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            color: #A6CFD5;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        /* Botão animado refinado */
-        .btn-luxury {
-            background: linear-gradient(105deg, #1C337A, #0A0535);
-            border: 1px solid rgba(194, 231, 217, 0.3);
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            font-weight: 700;
-            color: #FFFFFF;
-            border-radius: 3rem;
-            cursor: pointer;
-            transition: all 0.35s ease;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 260px;
-            margin: 1.2rem auto;
-            display: block;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 1.5px;
-            backdrop-filter: blur(2px);
-        }
-
-        .btn-luxury::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-luxury:hover::before {
-            left: 100%;
-        }
-
-        .btn-luxury:hover {
-            transform: translateY(-3px);
-            background: linear-gradient(105deg, #2647A3, #110854);
-            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.6);
-            border-color: #FFFFFF;
-        }
-
-        .btn-luxury:active {
-            transform: translateY(1px);
-        }
-
-        /* Texto especial elegante */
-        .special-message {
-            text-align: center;
-            font-size: 1.15rem;
-            font-weight: 500;
-            margin: 1.8rem 0;
-            color: #FFFFFF;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
-            font-style: normal;
-            background: rgba(20, 35, 80, 0.5);
-            padding: 1.5rem;
-            border-radius: 2rem;
-            letter-spacing: 0.2px;
-            border: 1px solid rgba(166, 207, 213, 0.2);
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
+            color: #333;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
         }
 
-        /* Detalhes do evento */
-        .info-panel {
-            background: rgba(5, 2, 20, 0.7);
-            border-radius: 1.8rem;
-            padding: 1.6rem;
-            margin-top: 1rem;
+        /* Container Principal do Documento */
+        .documento {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 50px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Cabeçalho e Títulos */
+        header {
             text-align: center;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(194, 231, 217, 0.2);
+            margin-bottom: 40px;
+        }
+        h1 {
+            color: #1a5276;
+            font-size: 28px;
+            margin-bottom: 5px;
+            border-bottom: 3px solid #2980b9;
+            padding-bottom: 10px;
+        }
+        .subtitulo {
+            font-size: 18px;
+            color: #7f8c8d;
+            margin-top: 0;
+        }
+        .autor {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 15px;
+        }
+        h2 {
+            color: #2980b9;
+            font-size: 22px;
+            margin-top: 35px;
+            border-bottom: 1px solid #ecf0f1;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #34495e;
+            font-size: 18px;
+            margin-top: 25px;
         }
 
-        .info-row {
-            margin: 1rem 0;
-            color: #FFFFFF;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
+        /* Elementos de Texto */
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        ul {
+            margin-bottom: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        blockquote {
+            background-color: #f8f9fa;
+            border-left: 5px solid #2980b9;
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #555;
         }
 
-        .info-row i {
-            width: 28px;
-            color: #A6CFD5;
-            font-size: 1.2rem;
-        }
-
-        .info-row span {
-            font-weight: 700;
-            color: #A6CFD5;
-        }
-
-        /* Ícones sociais elegantes */
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .social-icon {
-            background: rgba(28, 51, 122, 0.6);
-            backdrop-filter: blur(8px);
-            width: 52px;
-            height: 52px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 40px;
-            transition: all 0.25s ease;
-            text-decoration: none;
-            color: #FFFFFF;
-            font-size: 1.7rem;
-            border: 1px solid rgba(194, 231, 217, 0.4);
-        }
-
-        .social-icon:hover {
-            transform: translateY(-5px);
-            background: #26408B;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            border-color: #FFFFFF;
-        }
-
-        /* Divisória refinada */
-        .divider {
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #FFFFFF, transparent);
-            margin: 1rem auto;
-            opacity: 0.6;
-        }
-
-        /* Responsivo */
-        @media (max-width: 550px) {
-            .card {
-                padding: 1.5rem;
-            }
-            .time-number {
-                font-size: 1.8rem;
-            }
-            .time-unit {
-                min-width: 65px;
-                padding: 0.6rem;
-            }
-            .elegant-title {
-                font-size: 1.6rem;
-            }
-            .special-message {
-                font-size: 1rem;
-            }
-        }
-
-        /* Canvas dos fogos - sempre acima */
-        #fireworks-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Tabela */
+        table {
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 200;
-            opacity: 0;
-            transition: opacity 0.15s ease;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f6f8;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        /* Botão de Impressão */
+        .btn-imprimir {
+            display: block;
+            width: 250px;
+            margin: 0 auto 30px auto;
+            padding: 12px 20px;
+            background-color: #27ae60;
+            color: #fff;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(39, 174, 96, 0.2);
+            transition: background 0.3s;
+        }
+        .btn-imprimir:hover {
+            background-color: #2ecc71;
+        }
+
+        /* Regras para quando for Imprimir (Ctrl+P / Salvar como PDF) */
+        @media print {
+            body {
+                background-color: #fff;
+                padding: 0;
+            }
+            .documento {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .btn-imprimir {
+                display: none; /* Esconde o botão na hora da impressão */
+            }
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+            table, blockquote {
+                page-break-inside: avoid;
+            }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-<audio id="bgMusic" src="365.mp3" loop preload="auto"></audio>
+    <button class="btn-imprimir" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
 
-<div class="app-container">
-    <div id="screenCountdown" class="card screen">
-        <div class="elegant-title">Diko's Bithday</div>
-        <div class="subtitle">29 de Abril de 2026</div>
-        <div class="timer-box">
-            <div class="time-unit"><div class="time-number" id="days">00</div><div class="time-label">Dias</div></div>
-            <div class="time-unit"><div class="time-number" id="hours">00</div><div class="time-label">Horas</div></div>
-            <div class="time-unit"><div class="time-number" id="minutes">00</div><div class="time-label">Minutos</div></div>
-            <div class="time-unit"><div class="time-number" id="seconds">00</div><div class="time-label">Segundos</div></div>
-        </div>
-        <button id="enterInviteBtn" class="btn-luxury">ACESSAR CONVITE</button>
-        <div class="divider"></div>
-        <div style="text-align: center; font-size: 0.75rem; color: #A6CFD5; font-weight: 500;">Aguardamos sua presença especial</div>
+    <div class="documento">
+        <header>
+            <h1>ALGORITMOLAB</h1>
+            <p class="subtitulo">Protótipo de Aplicação para o Desenvolvimento do Letramento Digital no Ensino Fundamental</p>
+            <p class="autor">Autor: Diedson Kenned Guiana Mota</p>
+        </header>
+
+        <h2>1. Introdução e Visão Geral</h2>
+        <p>O <strong>AlgoritmoLab</strong> é uma plataforma educacional voltada ao desenvolvimento do letramento digital em estudantes do 7º ano do Ensino Fundamental. O projeto responde à necessidade de preparar os estudantes para os desafios da cultura digital contemporânea.</p>
+        
+        <blockquote>
+            <strong>Alinhamento Pedagógico:</strong> A proposta foi fundamentada nas competências da <strong>Base Nacional Comum Curricular (BNCC) de Computação</strong>, visando uma educação crítica e consciente.
+        </blockquote>
+
+        <h2>2. Contexto Educacional e Objetivos</h2>
+        <p>A plataforma foi projetada para atuar em frentes críticas da formação estudantil, garantindo que o uso da tecnologia ocorra de forma ética e segura. Os objetivos principais baseados na BNCC incluem:</p>
+        <ul>
+            <li><strong>Uso Seguro das Tecnologias:</strong> Orientação para cibersegurança e proteção de dados.</li>
+            <li><strong>Ética e Propriedade:</strong> Respeito aos direitos autorais no ambiente digital.</li>
+            <li><strong>Pensamento Crítico:</strong> Resolução de problemas utilizando recursos computacionais e pesquisa em fontes confiáveis.</li>
+        </ul>
+
+        <h2>3. Público-Alvo e Diferenciais</h2>
+        
+        <h3>Público Principal e Secundário</h3>
+        <p>O público principal é composto por estudantes do 7º ano do Ensino Fundamental. Além disso, professores e pesquisadores podem utilizar a plataforma como um robusto apoio pedagógico.</p>
+
+        <h3>Estratégias de Gamificação e Engajamento</h3>
+        <p>Para aumentar a motivação dos alunos, o sistema adota diversos elementos de gamificação e atividades interativas:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Recurso de Engajamento</th>
+                    <th>Descrição na Plataforma</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Sistema de Progressão</strong></td>
+                    <td>Experiência (XP) acumulada e ofensivas diárias de estudo.</td>
+                </tr>
+                <tr>
+                    <td><strong>Personalização e Conquistas</strong></td>
+                    <td>Uso de avatares personalizáveis e emblemas desbloqueáveis.</td>
+                </tr>
+                <tr>
+                    <td><strong>Conteúdo Multimídia</strong></td>
+                    <td>Vídeos curtos, apostilas digitais e produção de podcasts/vídeos pelos próprios estudantes.</td>
+                </tr>
+                <tr>
+                    <td><strong>Validação</strong></td>
+                    <td>Emissão de certificados após a conclusão dos módulos.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>4. Aspectos Tecnológicos e Considerações Finais</h2>
+        <p>A sustentação técnica da plataforma foi planejada para garantir escalabilidade e acompanhamento do progresso dos estudantes. O sistema utiliza tecnologias modernas de desenvolvimento, como:</p>
+        <ul>
+            <li><strong>Arquitetura:</strong> Padrão MVC.</li>
+            <li><strong>Backend:</strong> Node.js e framework Express.</li>
+            <li><strong>Banco de Dados:</strong> Oracle Autonomous Database.</li>
+        </ul>
+
+        <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
+
+        <p>O AlgoritmoLab busca fortalecer competências digitais, pensamento crítico e cidadania digital, consolidando-se como uma ferramenta prática e inovadora para a educação moderna.</p>
     </div>
 
-    <div id="screenInvite" class="card screen hide">
-        <div style="text-align: center;">
-            <i class="fas fa-star-of-life" style="font-size: 2.2rem; color: #FFFFFF; opacity: 0.9; text-shadow: 0 0 10px rgba(255,255,255,0.5);"></i>
-            <div class="elegant-title" style="font-size: 1.8rem; margin-top: 0.5rem;">Você está convidado</div>
-            <div class="special-message">
-                “Você não é apenas meu amigo(a), é um capítulo vivo da minha história, que me ergueu nas quedas, celebrou as vitórias e deu sentido aos dias comuns. A sua vinda seria o gesto mais especial e profundo que eu poderia receber, um testemunho vivo de que os laços verdadeiros transcendem o tempo, um reencontro que reacende a chama da gratidão e fortalece o que há de mais humano em nós.”
-            </div>
-            <div class="divider"></div>
-            <button id="acceptInviteBtn" class="btn-luxury" style="background: linear-gradient(105deg, #1C337A, #0A0535);">CONFIRMAR PRESENÇA</button>
-        </div>
-    </div>
-
-    <div id="screenInfo" class="card screen hide">
-        <div style="text-align: center;">
-            <i class="fas fa-calendar-check" style="font-size: 2rem; color: #FFFFFF; text-shadow: 0 0 10px rgba(255,255,255,0.3);"></i>
-            <div class="elegant-title" style="font-size: 1.6rem; margin-top: 0.5rem;">Detalhes da Celebração</div>
-            <div class="info-panel">
-                <div class="info-row"><i class="fas fa-calendar-alt"></i> <span>Data:</span> 02 de Maio de 2026</div>
-                <div class="info-row"><i class="fas fa-clock"></i> <span>Horário:</span> 19h30</div>
-                <div class="info-row"><i class="fas fa-location-dot"></i> <span>Local:</span> PlayerFood - Rua Lapis Lazuli, 6 - Nossa Sra. das Graças</div>
-                <div class="info-row"><i class="fas fa-shirt"></i> <span>Vestimenta:</span> Roupas nas cores Vermelha ou Branca</div>
-                <div class="info-row"><i class="fas fa-utensils"></i> <span>Reserva:</span> Local não cobra reserva, mas pede um consumo mínimo de R$40,00 por pessoa</div>
-                <div class="info-row"><i class="fas fa-gift"></i> <span>Presentes:</span> Não necessita, sua companhia é mais especial</div>
-            </div>
-            <div class="social-links">
-                <a href="https://www.instagram.com/https_kenned?igsh=anhxaG5nMXdvNzRi" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-instagram"></i></a>
-                <a href="https://wa.me/qr/52XMGSSUBJFYB1" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            <div style="margin-top: 1.5rem; font-size: 0.8rem; color: #A6CFD5; font-weight: 500;"><i class="fas fa-heart" style="font-size: 0.7rem; color: #FFFFFF;"></i> Confirme sua presença pelo WhatsApp</div>
-        </div>
-    </div>
-</div>
-
-<canvas id="fireworks-canvas"></canvas>
-
-<script>
-    (function() {
-        // ======================== 1. CONTAGEM REGRESSIVA ========================
-        const targetDate = new Date(2026, 3, 29, 0, 0, 0); // 29 de Abril de 2026 (Mês é de 0 a 11, onde 3 é Abril)
-        
-        // Novas variáveis para controle do fim da contagem
-        let countdownEnded = false;
-        let countdownInterval;
-        let celebrationInterval;
-
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
-            if (distance < 0) {
-                document.getElementById('days').innerText = '00';
-                document.getElementById('hours').innerText = '00';
-                document.getElementById('minutes').innerText = '00';
-                document.getElementById('seconds').innerText = '00';
-                
-                // Lógica executada apenas uma vez quando a contagem zera
-                if (!countdownEnded) {
-                    countdownEnded = true;
-                    clearInterval(countdownInterval);
-                    
-                    // Tenta tocar a música de fundo
-                    const bgMusic = document.getElementById('bgMusic');
-                    bgMusic.play().catch(e => console.log('Autoplay bloqueado pelo navegador. O usuário precisa interagir com a página.'));
-
-                    // Dispara o primeiro show de confetes/fogos
-                    launchFireworksShow();
-                    
-                    // Configura para continuar soltando de tempo em tempo (loop infinito de confetes)
-                    celebrationInterval = setInterval(launchFireworksShow, 4500);
-                }
-                return;
-            }
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (86400000)) / (3600000));
-            const minutes = Math.floor((distance % 3600000) / 60000);
-            const seconds = Math.floor((distance % 60000) / 1000);
-
-            document.getElementById('days').innerText = days < 10 ? '0' + days : days;
-            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
-            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
-            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
-        }
-        
-        // Inicia a contagem
-        updateCountdown();
-        countdownInterval = setInterval(updateCountdown, 1000);
-
-        // ======================== 2. CORAÇÕES FLUTUANTES ========================
-        function createElegantHearts() {
-            const heartSymbols = ['✦', '✧', '❤', '❥', '♡', '✴', '❀', '✿'];
-            const heartsCount = 35;
-            for (let i = 0; i < heartsCount; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('floating-heart');
-                const symbol = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-                heart.innerHTML = symbol;
-                heart.style.left = Math.random() * 100 + '%';
-                heart.style.fontSize = (Math.random() * 18 + 12) + 'px';
-                heart.style.animationDuration = (Math.random() * 10 + 8) + 's';
-                heart.style.animationDelay = Math.random() * 12 + 's';
-                heart.style.opacity = Math.random() * 0.45 + 0.2;
-                document.body.appendChild(heart);
-                
-                setTimeout(() => {
-                    if (heart && heart.remove) heart.remove();
-                }, 18000);
-            }
-        }
-        createElegantHearts();
-        setInterval(() => {
-            if (document.querySelectorAll('.floating-heart').length < 25) {
-                createElegantHearts();
-            }
-        }, 5000);
-
-        // ======================== 3. SISTEMA DE FOGOS DE ARTIFÍCIO / CONFETES ========================
-        const canvas = document.getElementById('fireworks-canvas');
-        let ctx = canvas.getContext('2d');
-        let activeParticles = [];
-        let animationFrameId = null;
-        let fireworksRunning = false;
-        let isSpawning = false; 
-        
-        function resizeFireworksCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeFireworksCanvas);
-        resizeFireworksCanvas();
-
-        class Particle {
-            constructor(x, y, color, velocityX, velocityY) {
-                this.x = x;
-                this.y = y;
-                this.size = Math.random() * 4 + 2;
-                this.vx = velocityX !== undefined ? velocityX : (Math.random() - 0.5) * 9;
-                this.vy = velocityY !== undefined ? velocityY : (Math.random() - 0.5) * 9 - 2.5;
-                this.gravity = 0.2;
-                this.alpha = 1;
-                this.color = color;
-                this.friction = 0.98;
-                this.decay = 0.016 + Math.random() * 0.012;
-            }
-            
-            update() {
-                this.vx *= this.friction;
-                this.vy += this.gravity;
-                this.x += this.vx;
-                this.y += this.vy;
-                this.alpha -= this.decay;
-                return this.alpha <= 0;
-            }
-            
-            draw() {
-                ctx.save();
-                ctx.globalAlpha = this.alpha;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-                ctx.restore();
-            }
-        }
-        
-        function createFireworkExplosion(x, y, customColors = null) {
-            const palette = customColors || ['#FFD966', '#F4A261', '#E9C46A', '#C2E7D9', '#A6CFD5', '#F2E8CF', '#F4D58C', '#BFB48F', '#8E9AAF', '#C9E4DE'];
-            const particleCount = 80 + Math.floor(Math.random() * 45);
-            for (let i = 0; i < particleCount; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 5 + 2;
-                const vx = Math.cos(angle) * speed * (Math.random() * 1.2);
-                const vy = Math.sin(angle) * speed * (Math.random() * 1.2) - 1.5;
-                const colorChoice = palette[Math.floor(Math.random() * palette.length)];
-                activeParticles.push(new Particle(x, y, colorChoice, vx, vy));
-            }
-        }
-        
-        function launchFireworksShow() {
-            if (fireworksRunning) {
-                if (animationFrameId) {
-                    cancelAnimationFrame(animationFrameId);
-                    animationFrameId = null;
-                }
-                activeParticles = [];
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }
-            
-            fireworksRunning = true;
-            isSpawning = true;
-            canvas.style.opacity = '1';
-            resizeFireworksCanvas();
-            
-            const w = canvas.width;
-            const h = canvas.height;
-            
-            const explosionPoints = [
-                { x: w * 0.2, y: h * 0.35, delay: 0 },
-                { x: w * 0.5, y: h * 0.3, delay: 80 },
-                { x: w * 0.8, y: h * 0.45, delay: 50 },
-                { x: w * 0.35, y: h * 0.6, delay: 150 },
-                { x: w * 0.65, y: h * 0.55, delay: 200 },
-                { x: w * 0.15, y: h * 0.7, delay: 280 },
-                { x: w * 0.85, y: h * 0.25, delay: 320 },
-                { x: w * 0.5, y: h * 0.7, delay: 400 },
-                { x: w * 0.3, y: h * 0.45, delay: 480 },
-                { x: w * 0.7, y: h * 0.75, delay: 530 }
-            ];
-            
-            explosionPoints.forEach(point => {
-                setTimeout(() => {
-                    if (fireworksRunning) createFireworkExplosion(point.x, point.y);
-                }, point.delay);
-            });
-            
-            setTimeout(() => {
-                if (fireworksRunning) {
-                    for (let i = 0; i < 12; i++) {
-                        setTimeout(() => {
-                            if (fireworksRunning) {
-                                const randX = Math.random() * w;
-                                const randY = Math.random() * h * 0.7 + 40;
-                                createFireworkExplosion(randX, randY, ['#FFB347', '#FFD166', '#C2E7D9', '#E9C46A', '#A6CFD5', '#F4A261']);
-                            }
-                        }, i * 70);
-                    }
-                }
-            }, 700);
-            
-            setTimeout(() => {
-                if (fireworksRunning) {
-                    for (let i = 0; i < 8; i++) {
-                        setTimeout(() => {
-                            if (fireworksRunning) {
-                                const randX = Math.random() * w * 0.8 + w * 0.1;
-                                const randY = Math.random() * h * 0.6 + 50;
-                                createFireworkExplosion(randX, randY, ['#F2C94C', '#E2C28B', '#C2E7D9', '#D4AF37', '#B8860B']);
-                            }
-                        }, i * 100 + 300);
-                    }
-                }
-            }, 1100);
-
-            setTimeout(() => { isSpawning = false; }, 2500);
-            
-            function animateFireworks() {
-                if (!fireworksRunning) return;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                let anyAlive = false;
-                
-                for (let i = 0; i < activeParticles.length; i++) {
-                    const isDead = activeParticles[i].update();
-                    activeParticles[i].draw();
-                    if (!isDead) anyAlive = true;
-                }
-                
-                activeParticles = activeParticles.filter(p => p.alpha > 0);
-                
-                if (anyAlive || activeParticles.length > 0 || isSpawning) {
-                    animationFrameId = requestAnimationFrame(animateFireworks);
-                } else {
-                    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-                    animationFrameId = null;
-                    canvas.style.opacity = '0';
-                    fireworksRunning = false;
-                }
-            }
-            
-            if (animationFrameId) cancelAnimationFrame(animationFrameId);
-            animationFrameId = requestAnimationFrame(animateFireworks);
-            
-            setTimeout(() => {
-                if (fireworksRunning) {
-                    setTimeout(() => {
-                        if (activeParticles.length === 0 && fireworksRunning && !isSpawning) {
-                            canvas.style.opacity = '0';
-                            fireworksRunning = false;
-                            if (animationFrameId) cancelAnimationFrame(animationFrameId);
-                            animationFrameId = null;
-                        } else if (fireworksRunning) {
-                            setTimeout(() => {
-                                if (animationFrameId) cancelAnimationFrame(animationFrameId);
-                                activeParticles = [];
-                                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                                canvas.style.opacity = '0';
-                                fireworksRunning = false;
-                                animationFrameId = null;
-                            }, 500);
-                        }
-                    }, 200);
-                }
-            }, 4000);
-        }
-        
-        // ======================== 4. TRANSIÇÕES ========================
-        const screenCountdown = document.getElementById('screenCountdown');
-        const screenInvite = document.getElementById('screenInvite');
-        const screenInfo = document.getElementById('screenInfo');
-        
-        function elegantTransition(currentScreen, nextScreen, triggerFireworks = true) {
-            if (!currentScreen || !nextScreen) return;
-            currentScreen.classList.add('fade-out');
-            
-            // Garantir que a música toque se o usuário clicou em algum botão
-            const bgMusic = document.getElementById('bgMusic');
-            if (bgMusic.paused) {
-                bgMusic.play().catch(e => console.log('Autoplay da música falhou ao clicar.'));
-            }
-            
-            if (triggerFireworks) {
-                launchFireworksShow();
-            }
-            
-            setTimeout(() => {
-                currentScreen.classList.add('hide');
-                currentScreen.classList.remove('fade-out');
-                nextScreen.classList.remove('hide');
-                nextScreen.style.opacity = '0';
-                nextScreen.style.transform = 'scale(0.96)';
-                setTimeout(() => {
-                    nextScreen.style.transition = 'opacity 0.5s ease, transform 0.45s ease';
-                    nextScreen.style.opacity = '1';
-                    nextScreen.style.transform = 'scale(1)';
-                    setTimeout(() => {
-                        nextScreen.style.transition = '';
-                    }, 500);
-                }, 30);
-            }, 520);
-        }
-        
-        document.getElementById('enterInviteBtn').addEventListener('click', () => {
-            elegantTransition(screenCountdown, screenInvite, true);
-        });
-        
-        document.getElementById('acceptInviteBtn').addEventListener('click', () => {
-            elegantTransition(screenInvite, screenInfo, true);
-        });
-        
-        window.addEventListener('load', () => {
-            resizeFireworksCanvas();
-            const allScreens = [screenCountdown, screenInvite, screenInfo];
-            allScreens.forEach(screen => {
-                screen.style.transition = 'opacity 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.5s ease';
-            });
-            screenInvite.classList.add('hide');
-            screenInfo.classList.add('hide');
-        });
-        
-        window.addEventListener('resize', () => {
-            if (fireworksRunning) {
-                const wasRunning = fireworksRunning;
-                if (animationFrameId && wasRunning) {
-                    const oldWidth = canvas.width;
-                    const oldHeight = canvas.height;
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                    if (oldWidth > 0 && oldHeight > 0) {
-                        const scaleX = canvas.width / oldWidth;
-                        const scaleY = canvas.height / oldHeight;
-                        for (let p of activeParticles) {
-                            p.x *= scaleX;
-                            p.y *= scaleY;
-                        }
-                    }
-                } else {
-                    resizeFireworksCanvas();
-                }
-            } else {
-                resizeFireworksCanvas();
-            }
-        });
-        
-    })();
-</script>
 </body>
 </html>
